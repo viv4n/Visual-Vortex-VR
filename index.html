@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Vortex: Deep Dive VR</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        /* Sets the viewer to take up the full screen */
+        #panorama { width: 100%; height: 100vh; }
+        .custom-hotspot {
+            /* Styles the clickable pin/dot */
+            background-color: #f00; /* Red dot for the pin */
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+            border: 2px solid #fff; /* White border for visibility */
+        }
+    </style>
+</head>
+<body>
+
+<div id="panorama"></div>
+
+<script>
+    // Initialize the Pannellum viewer
+    pannellum.viewer('panorama', {
+        // --- 1. CORE STATIC IMAGE SETUP ---
+        "type": "equirectangular",
+        "panorama": "main_vr_scene.jpg", // <--- 1. CONFIRMED STATIC IMAGE FILE (Must be on GitHub)
+        // Note: The "video: true" line is DELETED for the static image fix.
+        "autoLoad": true,
+        "autoRotate": -1, // Slower rotation for ambient feel
+        "showControls": true,
+        "compass": true,
+        "hfov": 100,
+
+        // --- 2. TEAM & TITLE ---
+        "title": "The Ocean's Breath and the Global Heat Pump",
+        "author": "Visual Vortex (Data Alchemist)",
+        
+        // --- 3. HOTSPOT SETUP (CRITICAL DEBUG MODE) ---
+        "hotSpotDebug": true, // <--- **LEAVE THIS AS TRUE TO FIND YOUR COORDINATES!**
+        "hotSpots": [
+            {
+                "pitch": 15, "yaw": -120, // <<< REPLACE THESE COORDINATES LATER
+                "type": "info",
+                "text": "The Global Current Engine: Click to see the video!",
+                // Link opens your currents video hosted on Vimeo/Dailymotion
+                "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_CURRENTS_LINK" 
+            },
+            {
+                "pitch": 45, "yaw": 50, // <<< REPLACE THESE COORDINATES LATER
+                "type": "info",
+                "text": "The Sky's Fever: Click to see the atmospheric connection!",
+                // Link opens your global temperature video hosted on Vimeo/Dailymotion
+                "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_GLOBAL_TEMP_LINK" 
+            },
+            {
+                "pitch": -25, "yaw": 10, // <<< REPLACE THESE COORDINATES LATER
+                ""type": "info",
+                "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)",
+                "URL": "plankton_image.jpg" // <--- 2. CONFIRMED PLANKTON IMAGE FILE (Must be on GitHub)
+            }
+        ]
+    });
+</script>
+
+</body>
+</html>
