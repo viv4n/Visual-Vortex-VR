@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
+        /* Sets the viewer to take up the full screen */
         #panorama { width: 100%; height: 100vh; }
         .custom-hotspot {
-            background-color: #f00; 
+            background-color: #f00; /* Red dot for the pin */
             border-radius: 50%;
             height: 20px;
             width: 20px;
             cursor: pointer;
-            border: 2px solid #fff; 
+            border: 2px solid #fff; /* White border for visibility */
         }
     </style>
 </head>
@@ -26,8 +27,7 @@
     pannellum.viewer('panorama', {
         // --- 1. CORE STATIC IMAGE SETUP (FIXED) ---
         "type": "equirectangular",
-        "panorama": "main_vr_scene.jpg", // <--- Links to your newly uploaded static image
-        // The "video: true" line is GONE!
+        "panorama": "main_vr_scene.jpg", // Links to your uploaded static image
         "autoLoad": true,
         "autoRotate": -1, 
         "showControls": true,
@@ -38,26 +38,29 @@
         "title": "The Ocean's Breath and the Global Heat Pump",
         "author": "Visual Vortex (Data Alchemist)",
         
-        // --- 3. HOTSPOT SETUP (Find coordinates in the next step) ---
-        "hotSpotDebug": true, // **LEAVE THIS AS TRUE!**
+        // --- 3. HOTSPOT SETUP (FINAL DATA) ---
+        "hotSpotDebug": false, // <-- FINAL: TURNED OFF DEBUG MODE
         "hotSpots": [
             {
-                "pitch": 15, "yaw": -120, // <<< REPLACE WITH YOUR CONSOLE COORDINATES
+                "pitch": 15.369976621525678, 
+                "yaw": -119.99499014613609, // Pin 1: Ocean Current Engine
                 "type": "info",
                 "text": "The Global Current Engine: Click to see the accelerating heat pump!",
-               // "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_CURRENTS_LINK" // <--- Paste external video link here
+                "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_CURRENTS_LINK" 
             },
             {
-                "pitch": 45, "yaw": 50, // <<< REPLACE WITH YOUR CONSOLE COORDINATES
+                "pitch": 45.19652341439956, 
+                "yaw": 49.79447605752178, // Pin 2: The Sky's Fever
                 "type": "info",
                 "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.",
-               // "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_GLOBAL_TEMP_LINK" // <--- Paste external video link here
+                "URL": "REPLACE_WITH_VIMEO_OR_DAILYMOTION_GLOBAL_TEMP_LINK" 
             },
             {
-                "pitch": -25, "yaw": 10, // <<< REPLACE WITH YOUR CONSOLE COORDINATES
+                "pitch": -24.889508860723797, 
+                "yaw": 9.948587901191058, // Pin 3: The Plankton Crisis
                 "type": "info",
                 "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)",
-               // "URL": "plankton_image.jpg" // <--- Use your Plankton image file name
+                "URL": "plankton_image.jpg" // Loads the image directly from the GitHub repo
             }
         ]
     });
@@ -65,4 +68,3 @@
 
 </body>
 </html>
-
