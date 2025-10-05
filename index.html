@@ -9,18 +9,18 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     
     <style>
-        /* Sets the viewer to take up the full screen */
+        /* full screen */
         #panorama { width: 100%; height: 100vh; }
 
-        /* --- STYLES FOR THE NEW PLAY BUTTON --- */
+        /* STYLESPLAY BUTTON  */
         #audio-toggle {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000; /* Ensure it's on top of everything */
+            z-index: 1000; 
             padding: 10px 20px;
-            background-color: #f00; /* Red color to match pins */
+            background-color: #f00; 
             color: white;
             border: none;
             border-radius: 5px;
@@ -46,12 +46,12 @@
 </button>
 
 <script>
-    // --- 1. AUDIO CONTROL FUNCTIONS & INITIALIZATION ---
+    //AUDIO CONTROL FUNCTIONS & INITIALIZATION 
     var backgroundAudio = document.getElementById('ambient-audio');
     var audioButton = document.getElementById('audio-toggle');
 
     function playPing() {
-        // Play the ping sound effect
+        //ping sound effect
         var ping = new Audio('hotspot_ping.mp3'); 
         ping.play();
     }
@@ -59,14 +59,14 @@
     // Function executed when the dedicated button is clicked
     function startAudioAndHide() {
         backgroundAudio.play();
-        audioButton.style.display = 'none'; // Hide the button once clicked
+        audioButton.style.display = 'none';
     }
 
     // Function executed when any hotspot is clicked
     function playPingAndGo() {
         playPing(); 
         
-        // Safety redundancy: if they click a hotspot first, hide the main button
+        //if they click a hotspot first, hide the main button
         if (backgroundAudio.paused) {
             backgroundAudio.play();
             audioButton.style.display = 'none';
@@ -74,18 +74,17 @@
         // Pannellum handles the link opening automatically
     }
     
-    // Initialize the Pannellum viewer (defined with 'var viewer' for scope)
+    //Pannellum viewer (defined with 'var viewer' for scope)
     var viewer = pannellum.viewer('panorama', { 
-        // --- 2. CORE SETUP ---
         "type": "equirectangular",
         "panorama": "main_vr_scene.jpg",
-        "autoLoad": true, // Load the panorama immediately
+        "autoLoad": true, 
         "autoRotate": -1, 
         "showControls": true,
         "compass": true,
         "hfov": 100,
 
-        // --- 3. HOTSPOT SETUP (FINAL DATA & INTERACTIVITY) ---
+        // HOTSPOT SETUP
         "hotSpotDebug": false,
         "hotSpots": [
             {
@@ -113,21 +112,35 @@
                 "URL": "Plankton_image.jpg" 
             },
             {
+                "pitch": 75.0, // North Pole area
+                "yaw": 0.0, // Central
+                "type": "info",
+                "text": "The CO2 Blanket: Click to watch 20 years of atmospheric carbon buildup (AIRS Data).",
+                "clickHandlerFunc": playPingAndGo,
+                "URL": "https://youtu.be/ZdRkNq8z1RA" 
+            },
+            {
+                "pitch": 70.0,  
+                "yaw": -45.0, 
+                "type": "info",
+                "text": "The Ice Loss Meter: Click to see the accelerating decline of Greenland's ice (GRACE Data).",
+                "clickHandlerFunc": playPingAndGo,
+                "URL": "https://youtu.be/IIqCAGtcqRU" 
+            },
+            {
                 "pitch": -12.345, 
                 "yaw": 95.789, 
                 "type": "info",
                 "text": "BONUS: Advanced NASA 3D Model (External Link)",
-                "clickHandlerFunc": playPingAndGo, // Reusing function name for cleaner integration
+                "clickHandlerFunc": playPingAndGo, 
                 "URL": "https://svs.gsfc.nasa.gov/5450" 
             }
         ],
         
-        // --- 4. INITIAL CLICK STARTUP ---
-        // This ensures the initial rotation begins automatically after the page loads
+        // 4. INITIAL CLICK STARTUP
         "touchBindAlso": true,
         "mousewheel": true,
         "click": function() {
-            // No action needed here, as the button handles the click logic
         }
     });
     
@@ -137,3 +150,4 @@
 
 </body>
 </html>
+
