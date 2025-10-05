@@ -7,62 +7,65 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        /* Sets the viewer to take up the full screen */
+
         #panorama { width: 100%; height: 100vh; }
         .custom-hotspot {
-            background-color: #f00; /* Red dot for the pin */
+            background-color: #f00; 
             border-radius: 50%;
             height: 20px;
             width: 20px;
             cursor: pointer;
-            border: 2px solid #fff; /* White border for visibility */
+            border: 2px solid #fff; 
         }
     </style>
 </head>
 <body>
 
+<audio id="ambient-audio" src="ambient_music.wav" loop autoplay volume="0.10"></audio>
+
 <div id="panorama"></div>
 
 <script>
-    // Initialize the Pannellum viewer
+    function playPing() {
+        var audio = new Audio('hotspot_ping.flac'); 
+        audio.play();
+    }
+
+
     pannellum.viewer('panorama', {
-        // --- 1. CORE STATIC IMAGE SETUP (GUARANTEED TO WORK) ---
         "type": "equirectangular",
-        "panorama": "main_vr_scene.jpg", // <--- LINKS TO YOUR STATIC IMAGE FILE ON GITHUB
-        // *** THE "video: true" LINE IS PERMANENTLY REMOVED ***
+        "panorama": "main_vr_scene.jpg", 
         "autoLoad": true,
         "autoRotate": -1, 
         "showControls": true,
         "compass": true,
         "hfov": 100,
 
-        // --- 2. TEAM & TITLE ---
         "title": "The Ocean's Breath and the Global Heat Pump",
         "author": "Visual Vortex (Data Alchemist)",
         
-        // --- 3. HOTSPOT SETUP (FINAL DATA) ---
-        "hotSpotDebug": false, // FINAL: Debug mode is OFF
+        "hotSpotDebug": false, 
         "hotSpots": [
             {
                 "pitch": 15.369976621525678, 
                 "yaw": -119.99499014613609, 
                 "type": "info",
-                "text": "The Global Current Engine: Click to see the accelerating heat pump!",
+                "text": "The Global Current Engine: Click to see the accelerating heat pump!<span onclick=\"playPing()\"></span>",
                 "URL": "https://youtu.be/5ZElGKeBbcQ" 
             },
             {
                 "pitch": 45.19652341439956, 
                 "yaw": 49.79447605752178, 
                 "type": "info",
-                "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.",
-                "URL": "https://youtube.com/shorts/xOJWCJuabYI" 
+                "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.<span onclick=\"playPing()\"></span>",
+                "URL": "https://youtube.com/shorts/xOJWCJuabYI?feature=share" 
             },
             {
                 "pitch": -24.889508860723797, 
                 "yaw": 9.948587901191058, 
                 "type": "info",
-                "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)",
-                "URL": "Plankton_image.jpg" // Loads the image directly from the GitHub repo
+                "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)<span onclick=\"playPing()\"></span>",
+                "URL": "Plankton_image.jpg" 
             }
         ]
     });
@@ -70,5 +73,3 @@
 
 </body>
 </html>
-
-
