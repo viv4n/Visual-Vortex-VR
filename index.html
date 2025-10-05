@@ -4,50 +4,50 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Vortex: Deep Dive VR</title>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    
     <style>
         /* Sets the viewer to take up the full screen */
         #panorama { width: 100%; height: 100vh; }
-        .custom-hotspot {
-            background-color: #f00; /* Red dot for the pin */
-            border-radius: 50%;
-            height: 20px;
-            width: 20px;
-            cursor: pointer;
-            border: 2px solid #fff; /* White border for visibility */
-        }
+        
+        /* The default style for the info hotspot (small blue 'i' circle) is fine. 
+           We'll use a clean, default look to avoid complex custom CSS. */
     </style>
 </head>
 <body>
 
-<audio id="ambient-audio" src="ambient_music.mp3" loop controls volume="0.20"></audio> 
+<audio id="ambient-audio" src="ambient_music.mp3" loop volume="0.20"></audio> 
 
 <div id="panorama"></div>
 
 <script>
-    // --- HOTSPOT PING FUNCTION ---
-    // This function plays the sound effect (hotspot_ping.mp3 must be uploaded to GitHub)
-    function playPing() {
-        var audio = new Audio('hotspot_ping.mp3'); 
-        audio.play();
-    }
+    // --- 1. AUDIO CONTROL FUNCTIONS ---
+    var backgroundAudio = document.getElementById('ambient-audio');
 
+    function playPingAndGo() {
+        // Start ambient music on the very first interaction (browser policy fix)
+        backgroundAudio.play(); 
+
+        // Play the ping sound effect
+        var ping = new Audio('hotspot_ping.mp3'); 
+        ping.play();
+        
+        // Pannellum handles the link opening automatically if it's set in the hotspot config.
+    }
+    
     // Initialize the Pannellum viewer
     pannellum.viewer('panorama', {
-        // --- 1. CORE STATIC IMAGE SETUP (FIXED) ---
+        // --- 2. CORE SETUP ---
         "type": "equirectangular",
-        "panorama": "main_vr_scene.jpg", // The working static background image
-        "autoLoad": false, // False prevents the browser from blocking initial content
+        "panorama": "main_vr_scene.jpg", 
+        "autoLoad": false, // False ensures the viewer waits for a click to begin
         "autoRotate": -1, 
         "showControls": true,
         "compass": true,
         "hfov": 100,
 
-        // --- 2. TEAM & TITLE ---
-        "title": "The Ocean's Breath and the Global Heat Pump",
-        "author": "Visual Vortex (Data Alchemist)",
-        
         // --- 3. HOTSPOT SETUP (FINAL DATA & INTERACTIVITY) ---
         "hotSpotDebug": false, 
         "hotSpots": [
@@ -55,30 +55,40 @@
                 "pitch": 15.369976621525678, 
                 "yaw": -119.99499014613609, 
                 "type": "info",
-                // This text includes the onclick event to play the PING sound
-                "text": "The Global Current Engine: Click to see the accelerating heat pump!<span onclick=\"playPing()\"></span>",
-                // Use the YOUTUBE /embed/ URL format for best compatibility
+                "text": "The Global Current Engine: Click to see the accelerating heat pump!",
+                // This line calls the audio function when the main hotspot icon is clicked!
+                "clickHandlerFunc": playPingAndGo, 
                 "URL": "https://youtu.be/5ZElGKeBbcQ" 
             },
             {
                 "pitch": 45.19652341439956, 
                 "yaw": 49.79447605752178, 
                 "type": "info",
-                "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.<span onclick=\"playPing()\"></span>",
+                "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.",
+                "clickHandlerFunc": playPingAndGo,
                 "URL": "https://youtube.com/shorts/xOJWCJuabYI?feature=share" 
             },
             {
                 "pitch": -24.889508860723797, 
                 "yaw": 9.948587901191058, 
                 "type": "info",
-                "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)<span onclick=\"playPing()\"></span>",
-                // This link loads the Plankton Image directly from your GitHub repo
+                "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)",
+                "clickHandlerFunc": playPingAndGo,
                 "URL": "Plankton_image.jpg" 
             }
-        ]
+        ],
+        
+        // --- 4. INITIAL CLICK STARTUP ---
+        // This makes the whole viewer clickable to start the music/autoload the scene
+        "touchBindAlso": true,
+        "mousewheel": true,
+        "click": function() {
+            backgroundAudio.play();
+            // This ensures rotation/autoload starts only after the first interaction
+            viewer.setYaw(-1, true); 
+        }
     });
 </script>
 
 </body>
 </html>
-
