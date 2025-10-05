@@ -10,12 +10,12 @@
         /* Sets the viewer to take up the full screen */
         #panorama { width: 100%; height: 100vh; }
         .custom-hotspot {
-            background-color: #f00; 
+            background-color: #f00; /* Red dot for the pin */
             border-radius: 50%;
             height: 20px;
             width: 20px;
             cursor: pointer;
-            border: 2px solid #fff; 
+            border: 2px solid #fff; /* White border for visibility */
         }
     </style>
 </head>
@@ -26,10 +26,10 @@
 <script>
     // Initialize the Pannellum viewer
     pannellum.viewer('panorama', {
-        // --- 1. CORE VIDEO SETUP (WORKING!) ---
+        // --- 1. CORE STATIC IMAGE SETUP (GUARANTEED TO WORK) ---
         "type": "equirectangular",
-        "panorama": "main_anomaly_video.mp4 (1).mp4", // <--- LOCAL VIDEO FILE NAME IS HERE
-        "video": true, // <--- CRITICAL: Enables video streaming
+        "panorama": "main_vr_scene.jpg", // <--- LINKS TO YOUR STATIC IMAGE FILE ON GITHUB
+        // *** THE "video: true" LINE IS PERMANENTLY REMOVED ***
         "autoLoad": true,
         "autoRotate": -1, 
         "showControls": true,
@@ -40,26 +40,26 @@
         "title": "The Ocean's Breath and the Global Heat Pump",
         "author": "Visual Vortex (Data Alchemist)",
         
-        // --- 3. HOTSPOT SETUP (Using your coordinates) ---
+        // --- 3. HOTSPOT SETUP (FINAL DATA) ---
         "hotSpotDebug": false, // FINAL: Debug mode is OFF
         "hotSpots": [
             {
                 "pitch": 15.369976621525678, 
-                "yaw": -119.99499014613609, // Pin 1: Ocean Current Engine
+                "yaw": -119.99499014613609, 
                 "type": "info",
                 "text": "The Global Current Engine: Click to see the accelerating heat pump!",
                 "URL": "PASTE_YOUTUBE_CURRENTS_LINK_HERE" 
             },
             {
                 "pitch": 45.19652341439956, 
-                "yaw": 49.79447605752178, // Pin 2: The Sky's Fever
+                "yaw": 49.79447605752178, 
                 "type": "info",
                 "text": "The Sky's Fever: The long-term atmospheric response to ocean heat.",
                 "URL": "PASTE_YOUTUBE_GLOBAL_TEMP_LINK_HERE" 
             },
             {
                 "pitch": -24.889508860723797, 
-                "yaw": 9.948587901191058, // Pin 3: The Plankton Crisis
+                "yaw": 9.948587901191058, 
                 "type": "info",
                 "text": "The Plankton Crisis: The Ocean's Critical Breath (Click for Image)",
                 "URL": "plankton_image.jpg" // Loads the image directly from the GitHub repo
@@ -70,4 +70,3 @@
 
 </body>
 </html>
-
