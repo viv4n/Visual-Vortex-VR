@@ -11,9 +11,28 @@
     <style>
         /* Sets the viewer to take up the full screen */
         #panorama { width: 100%; height: 100vh; }
-        
-        /* The default style for the info hotspot (small blue 'i' circle) is fine. 
-           We'll use a clean, default look to avoid complex custom CSS. */
+
+        /* --- STYLES FOR THE NEW PLAY BUTTON --- */
+        #audio-toggle {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000; /* Ensure it's on top of everything */
+            padding: 10px 20px;
+            background-color: #f00; /* Red color to match pins */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.2s;
+        }
+        #audio-toggle:hover {
+            background-color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -22,42 +41,59 @@
 
 <div id="panorama"></div>
 
+<button id="audio-toggle" onclick="startAudioAndHide()">
+    PLAY IMMERSIVE AUDIO
+</button>
+
 <script>
-    // --- 1. AUDIO CONTROL FUNCTIONS ---
+    // --- 1. AUDIO CONTROL FUNCTIONS & INITIALIZATION ---
     var backgroundAudio = document.getElementById('ambient-audio');
+    var audioButton = document.getElementById('audio-toggle');
 
-    function playPingAndGo() {
-        // Start ambient music on the very first interaction (browser policy fix)
-        backgroundAudio.play(); 
-
+    function playPing() {
         // Play the ping sound effect
         var ping = new Audio('hotspot_ping.mp3'); 
         ping.play();
+    }
+
+    // Function executed when the dedicated button is clicked
+    function startAudioAndHide() {
+        backgroundAudio.play();
+        audioButton.style.display = 'none'; // Hide the button once clicked
+    }
+
+    // Function executed when any hotspot is clicked
+    function playPingAndGo() {
+        playPing(); 
         
-        // Pannellum handles the link opening automatically if it's set in the hotspot config.
+        // Safety redundancy: if they click a hotspot first, hide the main button
+        if (backgroundAudio.paused) {
+            backgroundAudio.play();
+            audioButton.style.display = 'none';
+        }
+        // Pannellum handles the link opening automatically
     }
     
-    // Initialize the Pannellum viewer
-    pannellum.viewer('panorama', {
+    // Initialize the Pannellum viewer (defined with 'var viewer' for scope)
+    var viewer = pannellum.viewer('panorama', { 
         // --- 2. CORE SETUP ---
         "type": "equirectangular",
-        "panorama": "main_vr_scene.jpg", 
-        "autoLoad": false, // False ensures the viewer waits for a click to begin
+        "panorama": "main_vr_scene.jpg",
+        "autoLoad": true, // Load the panorama immediately
         "autoRotate": -1, 
         "showControls": true,
         "compass": true,
         "hfov": 100,
 
         // --- 3. HOTSPOT SETUP (FINAL DATA & INTERACTIVITY) ---
-        "hotSpotDebug": false, 
+        "hotSpotDebug": false,
         "hotSpots": [
             {
                 "pitch": 15.369976621525678, 
                 "yaw": -119.99499014613609, 
                 "type": "info",
                 "text": "The Global Current Engine: Click to see the accelerating heat pump!",
-                // This line calls the audio function when the main hotspot icon is clicked!
-                "clickHandlerFunc": playPingAndGo, 
+                "clickHandlerFunc": playPingAndGo,
                 "URL": "https://youtu.be/5ZElGKeBbcQ" 
             },
             {
@@ -77,31 +113,27 @@
                 "URL": "Plankton_image.jpg" 
             },
             {
-                // **REPLACE THESE COORDINATES WITH YOUR NEW INDIAN OCEAN CLICK**
                 "pitch": -12.345, 
                 "yaw": 95.789, 
                 "type": "info",
                 "text": "BONUS: Advanced NASA 3D Model (External Link)",
-                "clickHandlerFunc": playPingAndGo,
-                // Links directly to the SVS page for maximum WOW factor
+                "clickHandlerFunc": playPingAndGo, // Reusing function name for cleaner integration
                 "URL": "https://svs.gsfc.nasa.gov/5450" 
             }
         ],
         
         // --- 4. INITIAL CLICK STARTUP ---
-        // This makes the whole viewer clickable to start the music/autoload the scene
+        // This ensures the initial rotation begins automatically after the page loads
         "touchBindAlso": true,
         "mousewheel": true,
         "click": function() {
-            backgroundAudio.play();
-            // This ensures rotation/autoload starts only after the first interaction
-            viewer.setYaw(-1, true); 
+            // No action needed here, as the button handles the click logic
         }
     });
+    
+    // Start the rotation immediately
+    viewer.setYaw(-1, true); 
 </script>
 
 </body>
 </html>
-
-
-
